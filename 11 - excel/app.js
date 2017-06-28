@@ -31,7 +31,17 @@ var Excel = React.createClass({
       data: this.props.initialData,
       sortby: null,
       descending: false,
+      edit: null,
     };
+  },
+
+  _showEditor: function(e) {
+    this.setState({
+      edit: {
+        row: parseInt(e.target.dataset.row, 10),
+        cell: e.target.cellIndex,
+      }
+    });
   },
 
   _sort: function(e) {
@@ -70,17 +80,22 @@ var Excel = React.createClass({
             }, this)
           )
         ),
-        React.DOM.tbody(null,
-          this.state.data.map(function(row, idx) {
+        React.DOM.tbody({
+            onDoubleClick: this._showEditor
+          },
+          this.state.data.map(function(row, rowidx) {
             return (
               React.DOM.tr({
-                  key: idx
+                  key: rowidx
                 },
                 row.map(function(cell, idx) {
+                  var content = cell;
+
                   return React.DOM.td({
-                    key: idx
-                  }, cell);
-                })
+                    key: idx,
+                    'data-row': rowidx
+                  }, content);
+                }, this)
               )
             );
           })
