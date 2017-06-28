@@ -17,7 +17,8 @@ var Excel = React.createClass({
       data: this.props.initialData,
       sortby: null,
       descending: false,
-      edit: null, // [row index, cell index]
+      edit: null, // [row index, cell index],
+      search: false,
     };
   },
 
@@ -60,18 +61,127 @@ var Excel = React.createClass({
     });
   },
 
+  _preSearchData: null,
+
+  _toggleSearch: function() {
+    if (this.state.search) {
+      this.setState({
+        data: this._preSearchData,
+        search: false,
+      });
+      this._preSearchData = null;
+    } else {
+      this._preSearchData = this.state.data;
+      this.setState({
+        search: true,
+      });
+    }
+  },
+
+  _search: function(e) {
+    var needle = e.target.value.toLowerCase();
+    if (!needle) {
+      this.setState({
+        data: this._preSearchData
+      });
+      return;
+    }
+    var idx = e.target.dataset.idx;
+    var searchdata = this._preSearchData.filter(function(row) {
+      return row[idx].toString().toLowerCase().indexOf(needle) > -1;
+    });
+    this.setState({
+      data: searchdata
+    });
+  },
+
+  _download: function(format, ev) {
+    var contents = format === 'json' ?
+      JSON.stringify(this.state.data) :
+      this.state.data.reduce(function(result, row) {
+        return result +
+          row.reduce(function(rowresult, cell, idx) {
+            return rowresult +
+              '"' +
+              cell.replace(/"/g, '""') +
+              '"' +
+              (idx < row.length - 1 ? ',' : '');
+          }, '') +
+          "\n";
+      }, '');
+    var URL = window.URL || window.webkitURL;
+    var blob = new Blob([contents], {
+      type: 'text/' + format
+    });
+    ev.target.href = URL.createObjectURL(blob);
+    ev.target.download = 'data.' + format;
+  },
+
   render: function() {
     return (
-      React.DOM.table({
-          className: "table table-hover"
+      React.DOM.div(null,
+        this._renderToolbar(),
+        this._renderTable()
+      )
+    );
+  },
+
+  _renderToolbar: function() {
+    return React.DOM.div({
+        className: 'toolbar'
+      },
+      React.DOM.button({
+        className: 'btn btn-primary',
+        onClick: this._toggleSearch,
+      }, 'Search'),
+      React.DOM.a({
+        className: 'btn btn-default',
+        onClick: this._download.bind(this, 'json'),
+        href: 'data.json',
+      }, 'Export JSON'),
+      React.DOM.a({
+        className: 'btn btn-default',
+        onClick: this._download.bind(this, 'csv'),
+        href: 'data.csv',
+      }, 'Export CSV')
+    );
+  },
+
+  _renderSearch: function() {
+    if (!this.state.search) {
+      return null;
+    }
+    return (
+      React.DOM.tr({
+          onChange: this._search
         },
+        this.props.headers.map(function(_ignore, idx) {
+          return React.DOM.td({
+              key: idx
+            },
+            React.DOM.input({
+              type: 'text',
+              className: 'form-control',
+              'data-idx': idx,
+            })
+          );
+        })
+      )
+    );
+  },
+
+  _renderTable: function() {
+    return (
+      React.DOM.table({
+        className: "table table-hover",
+      },
         React.DOM.thead({
             onClick: this._sort
           },
           React.DOM.tr(null,
             this.props.headers.map(function(title, idx) {
               if (this.state.sortby === idx) {
-                title += this.state.descending ? ' \u2191' : ' \u2193'
+                title += this.state.descending ? ' \u2191' : ' \u2193';
               }
               return React.DOM.th({
                 key: idx
@@ -82,6 +192,7 @@ var Excel = React.createClass({
         React.DOM.tbody({
             onDoubleClick: this._showEditor
           },
+          this._renderSearch(),
           this.state.data.map(function(row, rowidx) {
             return (
               React.DOM.tr({
@@ -128,7 +239,7 @@ var data = [
   ["She: A History of Adventure", "H. Rider Haggard", "English", "1887", "100 million"],
 ];
 
-ReactDOM.render(
+var Excel = ReactDOM.render(
   React.createElement(Excel, {
     headers: headers,
     initialData: data,
