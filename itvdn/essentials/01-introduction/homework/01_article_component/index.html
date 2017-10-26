@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Simple article's component</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+    <script type="text/babel">
+
+    var SONGS = [
+        {
+            id: 1,
+            title: "Only Getting Younger",
+            author: "Elliphant & Skrillex",
+            label: "Unknown",
+            lyrics: "Walk around with bloody hands I saw you lick it off\nWe gon' keep them dirty just to prove a point\nMain our mind a lover man a body go weak\nI got my bloody truth I got my BAS crew with me"
+        },
+        {
+            id: 2,
+            title: "One more",
+            author: "MØ, Joel Little & Elliphant",
+            label: "TEN Music Group",
+            lyrics: "Stay with me tonight\nWe can count the street lights\nStay with me alright\nLet's bring it all back to life\nDon't fade away, stay"
+        },
+        {
+            id: 3,
+            title: "Hit and Run",
+            author: "Burns & Elliphant",
+            label: "TEN Music Group",
+            lyrics: "Don't move now one step closer\nSee man I'm not whole yet no\nJust started to recover\nJust started to recover"
+        },
+        {
+            id: 4,
+            title: "Player Run",
+            author: "Carl Löf, Tommy Tysper & Elliphant",
+            label: "TEN Music Group",
+            lyrics: "Booty call, empty heart\nGame is on, player run run run\nBooty call, empty heart\nGame is on, player run run run"
+        }
+    ];
+
+    var Song = React.createClass( {
+        render: function() {
+            return (
+                <li className = "song">
+                    <div className = "song-title"> { this.props.title } </div>
+                    <div className = "song-author"> { this.props.author } </div>
+                    <div className = "song-label"> { this.props.label } </div>
+                    <div className = "song-chorus"> { this.props.lyrics } </div>
+                </li>
+            );
+        }
+    } );
+
+    var SongsList = React.createClass( {
+        getInitialState: function() {
+            return {
+                displayedSongs: SONGS
+            };
+        },
+
+        render: function() {
+            return (
+                <div className = "songs">
+                    <ul className = "songs-list">
+                        {
+                           this.state.displayedSongs.map( function( el ) {
+                                return <Song
+                                    key = { el.id }
+                                    title = { el.title }
+                                    author = { el.author }
+                                    label = { el.label }
+                                    lyrics = { el.lyrics }
+                                />;
+                           })
+                        }
+                    </ul>
+                </div>
+            );
+        }
+    } );
+
+    ReactDOM.render(
+        <SongsList />,
+        document.getElementById( "app" )
+    );
+
+
+    </script>
+
+    </body>
+
+</html>
