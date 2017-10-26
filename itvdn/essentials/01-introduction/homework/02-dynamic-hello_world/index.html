@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <title>Dynamic Hello World programm</title>
+    </head>
+
+    <body>
+        <div id = "app"></div>
+
+        <script type="text/babel">
+
+            var HelloWorld = React.createClass( {
+                getInitialState: function() {
+                    return {
+                        output: "me"
+                    };
+                },
+
+                handleUserInput: function( event ) {
+                    var userInput = event.target.value;
+
+                    this.setState( {
+                        output: userInput
+                    } );
+                },
+
+                render: function () {
+                    return (
+                        <div>
+                            <input type = "text" placeholder = "Input something" className = "search-field" onChange = { this.handleUserInput } />
+                            <div>Hello World from {this.state.output}! </div>
+                        </div>
+                    );
+                }
+            } );
+
+            ReactDOM.render(
+                <HelloWorld />,
+                document.getElementById( "app" )
+            );
+
+        </script>
+
+    </body>
+
+</html>
