@@ -4,7 +4,7 @@ require('./Note.css');
 
 var Note = React.createClass({
     render: function() {
-        var style = { backgroundColor: this.props.color };
+        var style = { backgroundColor: 'orange' };
         return (
             <div className="note" style={style}>
                 <span className="delete-note" onClick={this.props.onDelete}> × </span>

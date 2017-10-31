@@ -3,7 +3,7 @@ var webpack = require( "webpack" );
 module.exports = {
     entry: "./src/main.js",
     output: {
-        path: __dirname + "/public/build/",
+        path: __dirname + '/public/build/',
         publicPath: "build/",
         filename: "bundle.js"
     },
@@ -32,12 +32,12 @@ module.exports = {
                 loader: "url-loader?limit=10000&mimetype=image/png"
             },
             {
-                test: /\svg.$/,
-                loader: "url-loader?limit=26000&mimetype=image/svg"
+                test: /\.svg/,
+                loader: "url-loader?limit=26000&mimetype=image/svg+xml"
             },
             {
                 test: /\.jsx$/,
-                loader: "babel",
+                loader: "react-hot!babel",
                 exclude: [/node_modules/, /public/]
             },
             {
