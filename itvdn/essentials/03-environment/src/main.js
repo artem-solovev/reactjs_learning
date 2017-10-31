@@ -1,1 +1,5 @@
-console.log( "Hello world!" );
+'use strict';
+
+const name = "Artem";
+
+console.log( `Hello ${ name }` );
