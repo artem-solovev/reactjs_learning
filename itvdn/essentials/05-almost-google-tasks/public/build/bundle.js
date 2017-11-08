@@ -46,7 +46,7 @@
 
 	"use strict";
 
-	var name = "Katya";
+	var name = "Artem";
 
 	console.log("Hello " + name + "!");
 
