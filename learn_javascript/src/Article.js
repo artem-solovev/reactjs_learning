@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CommentsList from './CommentsList'
 
 export default class Article extends Component {
     constructor( props ) {
@@ -44,15 +45,10 @@ export default class Article extends Component {
         if ( !this.state.isCommentsSectionOpen ) {
             return null;
         }
-        const { comments } = this.props.article;
-
-        const commentsElements = comments.map( (comment) => <li key = {comment.id}><i>{ comment.user }</i><br />{ comment.text }</li> )
         
-        return (
-            <ul>
-                {commentsElements}
-            </ul>
-        )
+        const { comments } = this.props.article;
+        
+        return <CommentsList comments = { comments } />
     }
 
     
