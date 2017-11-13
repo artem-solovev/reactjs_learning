@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
 import CommentsList from './CommentsList'
+import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
+import {List, ListItem} from 'material-ui/List';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+  
 
 export default class Article extends Component {
     constructor( props ) {
@@ -19,11 +24,22 @@ export default class Article extends Component {
         const { isCommentsSectionOpen } = this.state;
 
         return (
-            <div>
-                <h3>{ article.title }</h3>
-                <button onClick = { this.toggleArticleOpen }>open</button>
+
+            <Card>
+                <CardHeader
+                title = { article.title }
+                subtitle = { article.subtitle }
+                actAsExpander = { true }
+                showExpandableButton = { false }
+                />
+
+                <CardActions>
+                    <FlatButton label="Open" onClick = { this.toggleArticleOpen }/>
+                    <FlatButton label="Show comments" onClick = { this.toggleCommentsOpen }/>
+                </CardActions>
+
                 { this.getArticleBody() }
-            </div>
+            </Card>
         )
     }
 
@@ -35,8 +51,7 @@ export default class Article extends Component {
         const { article } = this.props;
 
         return <div>
-                    <section>{ article.text }</section>
-                    <a href="#" onClick = { this.toggleCommentsOpen }>Show comments</a>
+                    <CardText expandable={true}>{ article.text }</CardText>
                     { this.getCommentsBody() }
                 </div>;
     }
@@ -48,7 +63,7 @@ export default class Article extends Component {
         
         const { comments } = this.props.article;
         
-        return <CommentsList comments = { comments } />
+        return <List><CommentsList comments = { comments } /></List>
     }
 
     
