@@ -31,8 +31,7 @@ const iconButtonElement = (
   );
 
 export default function CommentsList( {comments} ) {
-    let logo = <Avatar src = { require( "./images/user_avatar.png" ) } />
-
+    
     if ( !comments || !comments.length ) {
         return ( 
             <List>
@@ -40,6 +39,8 @@ export default function CommentsList( {comments} ) {
             </List>
         )
     }
+    
+    let logo = <Avatar src = { require( "./images/user_avatar.png" ) } />
 
     const commentElements = comments.map( (comment) =>
         <div key = {comment.id}>
