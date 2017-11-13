@@ -33,6 +33,10 @@ const iconButtonElement = (
 export default function CommentsList( {comments} ) {
     let logo = <Avatar src = { require( "./images/user_avatar.png" ) } />
 
+    if ( !comments || !comments.length ) {
+        return ( <p>No comments yet</p> )
+    }
+
     const commentElements = comments.map( (comment) =>
         <div key = {comment.id}>
             <ListItem
