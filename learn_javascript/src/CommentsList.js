@@ -34,7 +34,11 @@ export default function CommentsList( {comments} ) {
     let logo = <Avatar src = { require( "./images/user_avatar.png" ) } />
 
     if ( !comments || !comments.length ) {
-        return ( <p>No comments yet</p> )
+        return ( 
+            <List>
+                <Subheader>No comments yet</Subheader>
+            </List>
+        )
     }
 
     const commentElements = comments.map( (comment) =>
