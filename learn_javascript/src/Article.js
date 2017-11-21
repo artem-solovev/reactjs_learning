@@ -11,20 +11,15 @@ export default class Article extends Component {
         super( props );
 
         this.state = {
-            isArticleOpen: false,
-            isCommentsOpen: false
+            isOpen: false
         }
     }
 
     render() {
         const { article } = this.props;
-        const { comments } = article;
-
-        const { isArticleOpen } = this.state;
-        const { isCommentsSectionOpen } = this.state;
+        const { isOpen } = this.state;
 
         return (
-
             <Card>
                 <CardHeader
                 title = { article.title }
@@ -34,48 +29,30 @@ export default class Article extends Component {
                 />
 
                 <CardActions>
-                    <FlatButton label="Open" onClick = { this.toggleArticleOpen }/>
-                    <FlatButton label="Show comments" onClick = { this.toggleCommentsOpen }/>
+                    <FlatButton label="Open" onClick = { this.toggleOpen }/>
                 </CardActions>
 
-                { this.getArticleBody() }
+                { this.getBody() }
             </Card>
         )
     }
 
-    getArticleBody() {
-        if ( !this.state.isArticleOpen ) {
+    getBody() {
+        if ( !this.state.isOpen ) {
             return null;
         }
-
+        
         const { article } = this.props;
 
         return <div>
-                    <CardText expandable={true}>{ article.text }</CardText>
-                    { this.getCommentsBody() }
+                    <CardText expandable = { true }>{ article.text }</CardText>
+                    <List><CommentsList comments = { article.comments } /></List>
                 </div>;
     }
-
-    getCommentsBody() {
-        if ( !this.state.isCommentsSectionOpen ) {
-            return null;
-        }
-        
-        const { comments } = this.props.article;
-        
-        return <List><CommentsList comments = { comments } /></List>
-    }
-
     
-    toggleArticleOpen = () => {
+    toggleOpen = () => {
         this.setState( {
-            isArticleOpen: !this.state.isArticleOpen
-        } )
-    }
-
-    toggleCommentsOpen = () => {
-        this.setState( {
-            isCommentsSectionOpen: !this.state.isCommentsSectionOpen
+            isOpen: !this.state.isOpen
         } )
     }
 }

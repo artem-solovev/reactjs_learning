@@ -1,69 +1,57 @@
-import React from 'react'
-import Article from './Article'
+import React, { Component } from 'react';
+import Article from './Article';
+import Comment from './Comment';
 
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
-import Avatar from 'material-ui/Avatar';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
-import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+
+import FlatButton from 'material-ui/FlatButton';
 
 
-const iconButtonElement = (
-    <IconButton
-        touch={true}
-        tooltip="more"
-        tooltipPosition="bottom-left"
-    >
-        <MoreVertIcon color={grey400} />
-    </IconButton>
-  );
-  
-  const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Reply</MenuItem>
-        <MenuItem>Forward</MenuItem>
-        <MenuItem>Delete</MenuItem>
-    </IconMenu>
-  );
+class CommentList extends Component {
+    state = {
+        isOpen: false
+    }
 
-export default function CommentsList( {comments} ) {
-    
-    if ( !comments || !comments.length ) {
-        return ( 
+    render() {
+        const text = this.state.isOpen ? 'hide comments' : 'show comments';
+
+        return (
             <List>
-                <Subheader>No comments yet</Subheader>
+                <Subheader>Comments</Subheader>
+                <FlatButton label = { text } onClick = { this.toggleOpen }/>
+                { this.getBody() }
             </List>
         )
     }
-    
-    let logo = <Avatar src = { require( "./images/user_avatar.png" ) } />
 
-    const commentElements = comments.map( (comment) =>
-        <div key = {comment.id}>
-            <ListItem
-                    leftAvatar={logo}
-                    rightIconButton={rightIconMenu}
-                    primaryText="Some theme"
-                secondaryText={
-                    <p>
-                    <span style={{color: darkBlack}}>{ comment.user }</span> -- 
-                    { comment.text }
-                    </p>
-                }
-                secondaryTextLines={1}
-                />,
-                <Divider inset={true} />
-        </div>
-    )
+    getBody() {
+        if ( !this.state.isOpen ) {
+            return null;
+        }
 
-    return (
-        <List>
-            <Subheader>Comments</Subheader>
-            {commentElements}
-        </List>
-    )
+        const { comments } = this.props;
+
+        if ( !comments || !comments.length ) {
+            return ( 
+                <List>
+                    <Subheader>No comments yet</Subheader>
+                </List>
+            )
+        }
+
+        return (
+            <List>
+                { comments.map( comment => <div key = {comment.id}><Comment comment = { comment } /></div> ) }
+            </List>
+        )
+
+    }
+
+    toggleOpen = ev => this.setState( {
+        isOpen: !this.state.isOpen
+    } )
 }
+
+export default CommentList;
