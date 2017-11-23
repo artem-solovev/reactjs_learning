@@ -2,10 +2,24 @@
 
 console.log("Here it is!!!");
 
+var app = {
+    title: "To do app",
+    subtitle: "Show me your goals"
+};
+
 var template = React.createElement(
-  "p",
-  null,
-  "This is JSX from app.js!"
+    "div",
+    null,
+    React.createElement(
+        "h1",
+        null,
+        app.title
+    ),
+    React.createElement(
+        "p",
+        null,
+        app.subtitle
+    )
 );
 
 var appRoot = document.getElementById("app");
