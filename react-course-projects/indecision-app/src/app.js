@@ -1,11 +1,11 @@
 console.log( "Here it is!!!" );
 
-var app = {
+let app = {
     title: "To do app",
     subtitle: "Show me your goals"
 };
 
-var template = <div>
+const template = <div>
                     <h1>{ app.title }</h1>
                     <p>{ app.subtitle }</p>
                 </div>;
@@ -27,7 +27,7 @@ const reset = () => {
     console.log( 'reset ', count );
 };
 
-var templateTwo = (
+const templateTwo = (
     <div>
         <h1>Count: { count } </h1>
         <button onClick = { addOne }>+1</button>
@@ -37,6 +37,6 @@ var templateTwo = (
     </div>
 );
 
-var appRoot = document.getElementById( "app" );
+const appRoot = document.getElementById( "app" );
 
 ReactDOM.render( templateTwo, appRoot );
