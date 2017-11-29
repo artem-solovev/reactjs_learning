@@ -1,38 +1,67 @@
-console.log( "Here it is!!!" );
+class App extends React.Component {
+    render() {
+        const title = "To do app";
+        const subtitle = "Make your life";
 
-let app = {
-    title: "To do app",
-    subtitle: "Show me your goals",
-    options: []
-};
-
-const onFormSubmit = ( e ) => {
-    e.preventDefault();
-
-    const option = e.target.elements.option.value;
-
-    if ( option ) {
-        app.options.push( option );
-        e.target.elements.option.value = '';
+        return (
+            <div>
+                <Header title = { title } subtitle = { subtitle } />
+                <Action />
+                <Options />
+                <AddOption />
+            </div>
+        );
     }
-};
+}
 
-const template = <div>
-                    <h1>{ app.title }</h1>
-                    <p>{ app.subtitle }</p>
-                    <p>{app.options.length}</p>
-                    <ol>
-                        <li>Item one</li>
-                        <li>Item two</li>
-                    </ol>
+class Header extends React.Component {
+ render() {
+     return <div>
+                <h1>{ this.props.title }</h1>
+                <h2>{ this.props.subtitle }</h2>
+            </div>;
+ }
+}
 
-                    <form onSubmit ={onFormSubmit}>
-                        <input type = "text" name = "option" />
-                        <button>Add Option</button>
-                    </form>
-                </div>;
+class Action extends React.Component {
+    render() {
+        return (
+            <div>
+                <button>What should I do?</button>
+            </div>
+        );
+    }
+}
 
+class Options extends React.Component {
+    render() {
+        return (
+            <div>
+                Options component here
+                <Option />
+            </div>
+        );
+    }
+}
 
-const appRoot = document.getElementById( "app" );
+class Option extends React.Component {
+    render() {
+        return (
+            <div>
+                Option component here
+            </div>
+        );
+    }
+}
 
-ReactDOM.render( template, appRoot );
+class AddOption extends React.Component {
+    render() {
+        return (
+            <div>
+                AddOption component here
+            </div>
+        );
+    }
+}
+
+ReactDOM.render( <App />, document.getElementById( 'app' ) );
