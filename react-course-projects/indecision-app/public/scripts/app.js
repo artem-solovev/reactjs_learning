@@ -4,7 +4,19 @@ console.log("Here it is!!!");
 
 var app = {
     title: "To do app",
-    subtitle: "Show me your goals"
+    subtitle: "Show me your goals",
+    options: []
+};
+
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
+
+    var option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+        e.target.elements.option.value = '';
+    }
 };
 
 var template = React.createElement(
@@ -19,58 +31,38 @@ var template = React.createElement(
         "p",
         null,
         app.subtitle
-    )
-);
-
-var count = 0;
-
-var addOne = function addOne() {
-    count++;
-    console.log('addOne ', count);
-};
-
-var minusOne = function minusOne() {
-    count--;
-    console.log('minusOne ', count);
-};
-
-var reset = function reset() {
-    count = 0;
-    console.log('reset ', count);
-};
-
-var templateTwo = React.createElement(
-    "div",
-    null,
-    React.createElement(
-        "h1",
-        null,
-        "Count: ",
-        count,
-        " "
-    ),
-    React.createElement(
-        "button",
-        { onClick: addOne },
-        "+1"
-    ),
-    React.createElement(
-        "button",
-        { onClick: minusOne },
-        "-1"
-    ),
-    React.createElement(
-        "button",
-        { onClick: reset },
-        "reset"
     ),
     React.createElement(
         "p",
         null,
-        count
+        app.options.length
+    ),
+    React.createElement(
+        "ol",
+        null,
+        React.createElement(
+            "li",
+            null,
+            "Item one"
+        ),
+        React.createElement(
+            "li",
+            null,
+            "Item two"
+        )
+    ),
+    React.createElement(
+        "form",
+        { onSubmit: onFormSubmit },
+        React.createElement("input", { type: "text", name: "option" }),
+        React.createElement(
+            "button",
+            null,
+            "Add Option"
+        )
     )
 );
 
 var appRoot = document.getElementById("app");
 
-ReactDOM.render(templateTwo, appRoot);
+ReactDOM.render(template, appRoot);

@@ -2,41 +2,37 @@ console.log( "Here it is!!!" );
 
 let app = {
     title: "To do app",
-    subtitle: "Show me your goals"
+    subtitle: "Show me your goals",
+    options: []
+};
+
+const onFormSubmit = ( e ) => {
+    e.preventDefault();
+
+    const option = e.target.elements.option.value;
+
+    if ( option ) {
+        app.options.push( option );
+        e.target.elements.option.value = '';
+    }
 };
 
 const template = <div>
                     <h1>{ app.title }</h1>
                     <p>{ app.subtitle }</p>
+                    <p>{app.options.length}</p>
+                    <ol>
+                        <li>Item one</li>
+                        <li>Item two</li>
+                    </ol>
+
+                    <form onSubmit ={onFormSubmit}>
+                        <input type = "text" name = "option" />
+                        <button>Add Option</button>
+                    </form>
                 </div>;
 
-let count = 0;
-
-const addOne = () => {
-    count++;
-    console.log( 'addOne ', count );
-};
-
-const minusOne = () => {
-    count--;
-    console.log( 'minusOne ', count );
-};
-
-const reset = () => {
-    count = 0;
-    console.log( 'reset ', count );
-};
-
-const templateTwo = (
-    <div>
-        <h1>Count: { count } </h1>
-        <button onClick = { addOne }>+1</button>
-        <button onClick = { minusOne }>-1</button>
-        <button onClick = { reset }>reset</button>
-        <p>{count}</p>
-    </div>
-);
 
 const appRoot = document.getElementById( "app" );
 
-ReactDOM.render( templateTwo, appRoot );
+ReactDOM.render( template, appRoot );
