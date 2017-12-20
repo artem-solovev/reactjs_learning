@@ -19,23 +19,39 @@ var Counter = function (_React$Component) {
         _this.handleMinusOne = _this.handleMinusOne.bind(_this);
         _this.handlePlusOne = _this.handlePlusOne.bind(_this);
         _this.handleReset = _this.handleReset.bind(_this);
+
+        _this.state = {
+            count: 0
+        };
         return _this;
     }
 
     _createClass(Counter, [{
         key: 'handleMinusOne',
         value: function handleMinusOne() {
-            console.log('handleMinusOne');
+            this.setState(function (prevState) {
+                return {
+                    count: prevState.count - 1
+                };
+            });
         }
     }, {
         key: 'handlePlusOne',
         value: function handlePlusOne() {
-            console.log('handlePlusOne');
+            this.setState(function (prevState) {
+                return {
+                    count: prevState.count + 1
+                };
+            });
         }
     }, {
         key: 'handleReset',
         value: function handleReset() {
-            console.log('handleReset');
+            this.setState(function () {
+                return {
+                    count: 0
+                };
+            });
         }
     }, {
         key: 'render',
@@ -46,16 +62,17 @@ var Counter = function (_React$Component) {
                 React.createElement(
                     'h1',
                     null,
-                    'Count: '
-                ),
-                React.createElement(
-                    'button',
-                    { onClick: this.handleMinusOne },
-                    '+1'
+                    'Count: ',
+                    this.state.count
                 ),
                 React.createElement(
                     'button',
                     { onClick: this.handlePlusOne },
+                    '+1'
+                ),
+                React.createElement(
+                    'button',
+                    { onClick: this.handleMinusOne },
                     '-1'
                 ),
                 React.createElement(
