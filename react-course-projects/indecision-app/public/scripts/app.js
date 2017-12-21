@@ -21,7 +21,7 @@ var App = function (_React$Component) {
         _this.handleAddOption = _this.handleAddOption.bind(_this);
 
         _this.state = {
-            options: []
+            options: props.options
         };
         return _this;
     }
@@ -60,13 +60,12 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var title = "To do app";
             var subtitle = "Make your life";
 
             return React.createElement(
                 'div',
                 null,
-                React.createElement(Header, { title: title, subtitle: subtitle }),
+                React.createElement(Header, { subtitle: subtitle }),
                 React.createElement(Action, {
                     hasOptions: this.state.options.length > 0,
                     handlePick: this.handlePick
@@ -85,6 +84,10 @@ var App = function (_React$Component) {
     return App;
 }(React.Component);
 
+App.defaultProps = {
+    options: []
+};
+
 var Header = function Header(props) {
     return React.createElement(
         'div',
@@ -94,12 +97,16 @@ var Header = function Header(props) {
             null,
             props.title
         ),
-        React.createElement(
+        props.subtitle && React.createElement(
             'h2',
             null,
             props.subtitle
         )
     );
+};
+
+Header.defaultProps = {
+    title: 'To do app'
 };
 
 var Action = function Action(props) {
@@ -136,7 +143,7 @@ var Option = function Option(props) {
     return React.createElement(
         'div',
         null,
-        undefined.props.optionText
+        props.optionText
     );
 };
 
@@ -196,4 +203,4 @@ var AddOption = function (_React$Component2) {
     return AddOption;
 }(React.Component);
 
-ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+ReactDOM.render(React.createElement(App, { options: ['1', '2', '3'] }), document.getElementById('app'));
