@@ -12,6 +12,27 @@ class App extends React.Component {
         };
     }
 
+    componentDidMount() {
+        try {
+            const json = localStorage.getItem( 'options' );
+            const options = JSON.parse( json );
+    
+            if ( options ) {
+                this.setState( () => ( { options } ) );
+            }
+        } catch ( e ) {
+
+        }
+    }
+
+    componentDidUpdate( prevProps, prevState ) {
+        if ( prevState.options.length !== this.state.options.length ) {
+            const json = JSON.stringify( this.state.options );
+
+            localStorage.setItem( 'options', json );
+        }
+    }
+
     handleDeleteOptions() {
         this.setState( () => ( { options: [] } ) );
     }
@@ -158,4 +179,4 @@ class AddOption extends React.Component {
     }
 }
 
-ReactDOM.render( <App options = { ['1', '2', '3'] } />, document.getElementById( 'app' ) );
+ReactDOM.render( <App options = { [ 'test', '123' ] } />, document.getElementById( 'app' ) );
