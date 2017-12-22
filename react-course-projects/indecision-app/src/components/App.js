@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Header from './Header.js';
-import Action from './Action.js';
-import Options from './Options.js';
-import AddOption from './AddOption.js';
-import Option from './Option.js';
+import Header from './Header';
+import Action from './Action';
+import Options from './Options';
+import AddOption from './AddOption';
+import Option from './Option';
 
 
 class App extends React.Component {
